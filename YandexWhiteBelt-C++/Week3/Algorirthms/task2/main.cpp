@@ -1,19 +1,31 @@
 #include <iostream>
-#include <algorithm>
 #include <string>
 #include <vector>
-#include <cctype>
+#include <algorithm>
+
+using namespace std;
 
 int main() {
-	int countOfStrings = 0;
-	std::cin >> countOfStrings;
-	std::vector<std::string> strings(countOfStrings);
-	for(int i = 0; i < countOfStrings; i++){
-		std::string buffer;
-		std::cin >> buffer;
-		strings[i] = buffer;
-	}
-	std::sort(std::begin(strings), std::end(strings), [](std::string left, std::string right){
-		return tolower(left) < tolower(right);
-	});
+  // считываем вектор строк
+  int n;
+  cin >> n;
+  vector<string> v(n);
+  for (string& s : v) {
+    cin >> s;
+  }
+  sort(begin(v), end(v),
+       [](const string& l, const string& r) {
+         return lexicographical_compare(
+             begin(l), end(l),
+             begin(r), end(r),
+             [](char cl, char cr) { return tolower(cl) < tolower(cr); }
+         );
+       }
+  );
+
+  for (const string& s : v) {
+    cout << s << ' ';
+  }
+
+  return 0;
 }
